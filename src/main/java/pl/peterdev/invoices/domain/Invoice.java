@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @RequiredArgsConstructor
@@ -40,5 +41,13 @@ public final class Invoice {
     }
 
     return sum;
+  }
+
+  public Optional<LocalDate> getDueDate() {
+    if (paymentTerms == null) {
+      return Optional.empty();
+    }
+
+    return Optional.of(issueDate.plusDays(paymentTerms.getDays()));
   }
 }
