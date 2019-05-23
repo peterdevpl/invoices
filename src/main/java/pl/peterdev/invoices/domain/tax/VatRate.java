@@ -1,8 +1,11 @@
-package pl.peterdev.invoices.domain;
+package pl.peterdev.invoices.domain.tax;
+
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
 public final class VatRate {
+  @Getter
   private final BigDecimal rate;
 
   public VatRate(BigDecimal rate) {
@@ -11,10 +14,6 @@ public final class VatRate {
     }
 
     this.rate = rate;
-  }
-
-  public BigDecimal rate() {
-    return rate;
   }
 
   public static VatRate valueOf(long rate) {

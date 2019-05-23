@@ -1,7 +1,13 @@
 package pl.peterdev.invoices.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import pl.peterdev.invoices.domain.tax.VatId;
+
+@Getter
+@RequiredArgsConstructor
 abstract public class Contractor {
-  private String name;
-  private Address address;
-  private VatId vatId;
+  private final String name;
+  private final Address address;
+  private final VatId vatId;
 }

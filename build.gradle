@@ -23,12 +23,16 @@ repositories {
 	mavenCentral()
 }
 
-
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('org.javamoney:moneta:1.3')
+
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	compile 'org.javamoney:moneta:1.3'
 	testImplementation('org.junit.jupiter:junit-jupiter-api:5.1.1')
+
 	testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.1.1')
 }
 
