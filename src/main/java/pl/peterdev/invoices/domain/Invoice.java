@@ -1,37 +1,40 @@
 package pl.peterdev.invoices.domain;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.javamoney.moneta.Money;
 import pl.peterdev.invoices.domain.payment.PaymentTerms;
-import pl.peterdev.invoices.domain.tax.VatRate;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Data
-@RequiredArgsConstructor
+@Value
 public final class Invoice {
+  private final InvoiceId number;
   private final CurrencyUnit currency;
   private final Sender sender;
   private final Recipient recipient;
-  private PaymentTerms paymentTerms;
-  private LocalDate issueDate = LocalDate.now();
-  private String number = "1";
-  private final List<InvoiceItem> items = new ArrayList<>();
+  private final PaymentTerms paymentTerms;
+  private final LocalDate issueDate;
+  private final List<InvoiceItem> items;
 
-  public void addItem(@NotBlank String name, @NotNull BigDecimal quantity, @NotNull MonetaryAmount unitNetPrice, @NotNull VatRate vatRate) {
-    if (!unitNetPrice.getCurrency().equals(currency)) {
-      throw new IllegalArgumentException("Item's currency does not match invoice currency");
-    }
-    items.add(new InvoiceItem(name, quantity, unitNetPrice, vatRate));
+  public Invoice(InvoiceId number,
+                 CurrencyUnit currency,
+                 Sender sender,
+                 Recipient recipient,
+                 PaymentTerms paymentTerms,
+                 LocalDate issueDate,
+                 List<InvoiceItem> items) {
+    // todo validate items currencies
+    this.number = number;
+    this.currency = currency;
+    this.sender = sender;
+    this.recipient = recipient;
+    this.paymentTerms = paymentTerms;
+    this.issueDate = issueDate;
+    this.items = items;
   }
 
   public MonetaryAmount totalGrossAmount() {

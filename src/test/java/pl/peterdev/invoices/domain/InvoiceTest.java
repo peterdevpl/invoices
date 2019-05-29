@@ -11,10 +11,10 @@ import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class InvoiceTest {
@@ -22,9 +22,14 @@ final class InvoiceTest {
   void shouldReturnTotalAmount() {
     // given
     CurrencyUnit currency = Monetary.getCurrency("EUR");
-    Invoice invoice = new Invoice(currency, ContractorFixture.exampleSender(), ContractorFixture.exampleRecipient());
     Money amount = Money.of(10000, currency);
-    invoice.addItem("Test product", BigDecimal.ONE, amount, VatRate.valueOf(23));
+    Invoice invoice = new Invoice(new InvoiceId("1"),
+        currency,
+        ContractorFixture.exampleSender(),
+        ContractorFixture.exampleRecipient(),
+        new PaymentTerms(BankAccountFixture.exampleAccount(), 15),
+        LocalDate.of(2019, 1, 1),
+        Collections.singletonList(new InvoiceItem("Test product", BigDecimal.ONE, amount, VatRate.valueOf(23))));
 
     // when
     MonetaryAmount total = invoice.totalGrossAmount();
@@ -37,27 +42,19 @@ final class InvoiceTest {
   void shouldCalculateDueDate() {
     // given
     CurrencyUnit currency = Monetary.getCurrency("EUR");
-    Invoice invoice = new Invoice(currency, ContractorFixture.exampleSender(), ContractorFixture.exampleRecipient());
-    PaymentTerms paymentTerms = new PaymentTerms(BankAccountFixture.exampleAccount(), 15);
-    invoice.setIssueDate(LocalDate.of(2019, 1, 1));
-    invoice.setPaymentTerms(paymentTerms);
+    Money amount = Money.of(10000, currency);
+    Invoice invoice = new Invoice(new InvoiceId("1"),
+        currency,
+        ContractorFixture.exampleSender(),
+        ContractorFixture.exampleRecipient(),
+        new PaymentTerms(BankAccountFixture.exampleAccount(), 15),
+        LocalDate.of(2019, 1, 1),
+        Collections.singletonList(new InvoiceItem("Test product", BigDecimal.ONE, amount, VatRate.valueOf(23))));
 
     // then
     LocalDate expectedDueDate = LocalDate.of(2019, 1, 16);
     Optional<LocalDate> actualDueDate = invoice.getDueDate();
     assertTrue(actualDueDate.isPresent());
     assertEquals(expectedDueDate, actualDueDate.get());
-  }
-
-  @Test
-  void shouldNotCalculateDueDateForEmptyPaymentTerms() {
-    // given
-    CurrencyUnit currency = Monetary.getCurrency("EUR");
-    Invoice invoice = new Invoice(currency, ContractorFixture.exampleSender(), ContractorFixture.exampleRecipient());
-    invoice.setIssueDate(LocalDate.of(2019, 1, 1));
-
-    // then
-    Optional<LocalDate> actualDueDate = invoice.getDueDate();
-    assertFalse(actualDueDate.isPresent());
   }
 }

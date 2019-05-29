@@ -6,7 +6,7 @@ import pl.peterdev.invoices.domain.tax.VatId;
 
 @Getter
 @RequiredArgsConstructor
-abstract public class Contractor {
+abstract class Contractor {
   private final String name;
   private final Address address;
   private final VatId vatId;
