@@ -2,6 +2,8 @@ package pl.peterdev.invoices.domain;
 
 import lombok.Value;
 import org.javamoney.moneta.Money;
+import pl.peterdev.invoices.domain.exception.InvoiceIsEmpty;
+import pl.peterdev.invoices.domain.exception.InvoiceItemsDoNotMatchInvoiceCurrency;
 import pl.peterdev.invoices.domain.payment.PaymentTerms;
 
 import javax.money.CurrencyUnit;
@@ -27,7 +29,7 @@ public final class Invoice {
                  PaymentTerms paymentTerms,
                  LocalDate issueDate,
                  List<InvoiceItem> items) {
-    // todo validate items currencies
+    validateItems(currency, items);
     this.number = number;
     this.currency = currency;
     this.sender = sender;
@@ -35,6 +37,16 @@ public final class Invoice {
     this.paymentTerms = paymentTerms;
     this.issueDate = issueDate;
     this.items = items;
+  }
+
+  private void validateItems(CurrencyUnit currency, List<InvoiceItem> items) {
+    if (items.size() < 1) {
+      throw new InvoiceIsEmpty();
+    }
+
+    if (items.stream().anyMatch(item -> !item.getUnitNetAmount().getCurrency().equals(currency))) {
+      throw new InvoiceItemsDoNotMatchInvoiceCurrency(currency);
+    }
   }
 
   public MonetaryAmount totalGrossAmount() {
