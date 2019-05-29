@@ -49,6 +49,24 @@ public final class Invoice {
     }
   }
 
+  public MonetaryAmount totalNetAmount() {
+    Money sum = Money.zero(currency);
+    for (InvoiceItem item : items) {
+      sum = sum.add(item.totalNetAmount());
+    }
+
+    return sum;
+  }
+
+  public MonetaryAmount totalVatAmount() {
+    Money sum = Money.zero(currency);
+    for (InvoiceItem item : items) {
+      sum = sum.add(item.totalVatAmount());
+    }
+
+    return sum;
+  }
+
   public MonetaryAmount totalGrossAmount() {
     Money sum = Money.zero(currency);
     for (InvoiceItem item : items) {

@@ -35,11 +35,10 @@ final class InvoiceTest {
         LocalDate.of(2019, 1, 1),
         Collections.singletonList(new InvoiceItem("Test product", BigDecimal.ONE, amount, VatRate.valueOf(23))));
 
-    // when
-    MonetaryAmount total = invoice.totalGrossAmount();
-
     // then
-    assertTrue(total.isEqualTo(Money.of(12300, currency)));
+    assertTrue(invoice.totalNetAmount().isEqualTo(Money.of(10000, currency)));
+    assertTrue(invoice.totalVatAmount().isEqualTo(Money.of(2300, currency)));
+    assertTrue(invoice.totalGrossAmount().isEqualTo(Money.of(12300, currency)));
   }
 
   @Test
