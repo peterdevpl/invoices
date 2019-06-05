@@ -1,5 +1,7 @@
 package pl.peterdev.invoices.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 import org.javamoney.moneta.Money;
 import pl.peterdev.invoices.domain.exception.InvoiceIsEmpty;
@@ -22,13 +24,14 @@ public final class Invoice {
   private final LocalDate issueDate;
   private final List<InvoiceItem> items;
 
-  public Invoice(InvoiceId number,
-                 CurrencyUnit currency,
-                 Sender sender,
-                 Recipient recipient,
-                 PaymentTerms paymentTerms,
-                 LocalDate issueDate,
-                 List<InvoiceItem> items) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Invoice(@JsonProperty("number") InvoiceId number,
+                 @JsonProperty("currency") CurrencyUnit currency,
+                 @JsonProperty("sender") Sender sender,
+                 @JsonProperty("recipient") Recipient recipient,
+                 @JsonProperty("paymentTerms") PaymentTerms paymentTerms,
+                 @JsonProperty("issueDate") LocalDate issueDate,
+                 @JsonProperty("items") List<InvoiceItem> items) {
     validateItems(currency, items);
     this.number = number;
     this.currency = currency;

@@ -1,12 +1,14 @@
 package pl.peterdev.invoices.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.peterdev.invoices.domain.tax.VatId;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 public final class Sender extends Contractor {
-    public Sender(@NotBlank String name, @NotNull Address address, @NotNull VatId vatId) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Sender(@JsonProperty("name") String name,
+                  @JsonProperty("address") Address address,
+                  @JsonProperty("vatId") VatId vatId) {
         super(name, address, vatId);
     }
 }
