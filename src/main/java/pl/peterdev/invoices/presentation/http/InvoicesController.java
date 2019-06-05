@@ -1,6 +1,7 @@
 package pl.peterdev.invoices.presentation.http;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import pl.peterdev.invoices.domain.InvoicesRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 final class InvoicesController {
