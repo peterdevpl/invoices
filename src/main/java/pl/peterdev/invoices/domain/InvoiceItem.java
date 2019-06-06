@@ -26,15 +26,15 @@ public final class InvoiceItem {
     this.vatRate = vatRate;
   }
 
-  public MonetaryAmount totalNetAmount() {
+  public MonetaryAmount getTotalNetAmount() {
     return unitNetAmount.multiply(quantity);
   }
 
-  public MonetaryAmount totalVatAmount() {
-    return totalNetAmount().multiply(vatRate.getRate());
+  public MonetaryAmount getTotalVatAmount() {
+    return getTotalNetAmount().multiply(vatRate.getRate());
   }
 
-  public MonetaryAmount totalGrossAmount() {
-    return totalNetAmount().add(totalVatAmount());
+  public MonetaryAmount getTotalGrossAmount() {
+    return getTotalNetAmount().add(getTotalVatAmount());
   }
 }

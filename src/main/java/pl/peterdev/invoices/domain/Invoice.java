@@ -52,28 +52,28 @@ public final class Invoice {
     }
   }
 
-  public MonetaryAmount totalNetAmount() {
+  public MonetaryAmount getTotalNetAmount() {
     Money sum = Money.zero(currency);
     for (InvoiceItem item : items) {
-      sum = sum.add(item.totalNetAmount());
+      sum = sum.add(item.getTotalNetAmount());
     }
 
     return sum;
   }
 
-  public MonetaryAmount totalVatAmount() {
+  public MonetaryAmount getTotalVatAmount() {
     Money sum = Money.zero(currency);
     for (InvoiceItem item : items) {
-      sum = sum.add(item.totalVatAmount());
+      sum = sum.add(item.getTotalVatAmount());
     }
 
     return sum;
   }
 
-  public MonetaryAmount totalGrossAmount() {
+  public MonetaryAmount getTotalGrossAmount() {
     Money sum = Money.zero(currency);
     for (InvoiceItem item : items) {
-      sum = sum.add(item.totalGrossAmount());
+      sum = sum.add(item.getTotalGrossAmount());
     }
 
     return sum;

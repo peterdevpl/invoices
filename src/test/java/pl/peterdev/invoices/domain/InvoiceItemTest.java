@@ -23,8 +23,8 @@ final class InvoiceItemTest {
     Money expectedTotalVat = Money.of(4600, currency);
     Money expectedTotalGross = Money.of(24600, currency);
 
-    assertTrue(item.totalNetAmount().isEqualTo(expectedTotalNet));
-    assertTrue(item.totalVatAmount().isEqualTo(expectedTotalVat));
-    assertTrue(item.totalGrossAmount().isEqualTo(expectedTotalGross));
+    assertTrue(item.getTotalNetAmount().isEqualTo(expectedTotalNet));
+    assertTrue(item.getTotalVatAmount().isEqualTo(expectedTotalVat));
+    assertTrue(item.getTotalGrossAmount().isEqualTo(expectedTotalGross));
   }
 }

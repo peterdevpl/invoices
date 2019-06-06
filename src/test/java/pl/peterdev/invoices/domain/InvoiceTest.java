@@ -10,7 +10,6 @@ import pl.peterdev.invoices.domain.tax.VatRate;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
-import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,9 +35,9 @@ final class InvoiceTest {
         Collections.singletonList(new InvoiceItem("Test product", BigDecimal.ONE, amount, VatRate.valueOf(23))));
 
     // then
-    assertTrue(invoice.totalNetAmount().isEqualTo(Money.of(10000, currency)));
-    assertTrue(invoice.totalVatAmount().isEqualTo(Money.of(2300, currency)));
-    assertTrue(invoice.totalGrossAmount().isEqualTo(Money.of(12300, currency)));
+    assertTrue(invoice.getTotalNetAmount().isEqualTo(Money.of(10000, currency)));
+    assertTrue(invoice.getTotalVatAmount().isEqualTo(Money.of(2300, currency)));
+    assertTrue(invoice.getTotalGrossAmount().isEqualTo(Money.of(12300, currency)));
   }
 
   @Test
